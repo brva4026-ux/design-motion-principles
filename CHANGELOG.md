@@ -4,6 +4,44 @@ All notable changes to this skill will be documented in this file.
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [2.1.2] — 2026-11-08
+
+Documentation-consistency fix. No behavior change to either workflow — the
+skill's runtime instructions now match the templates they point at, so an
+agent composing a real audit inherits the correct names, tokens, and cadence
+instead of the pre-2.1.1 ones.
+
+### Fixed
+- **`workflows/audit.md` referenced stale HTML-report internals.** The demo-card
+  naming contract, the loop cadence, and the shell's CSS variables had drifted
+  from the templates rewritten in 2.1.1:
+  - Keyframe/selector names `@keyframes motion-{n}-...` / `.demo-card-{n}__motion-target`
+    → the real contract `@keyframes m{n}` / `.demo-{n}__mt`.
+  - Loop cadence `0% / 66% / 100%` → the shell's actual `0% / ~60% / 100%`.
+  - Redefined-variable list `var(--bg)`, `var(--fg)`, `var(--border)`, `var(--accent)`,
+    `var(--loop-dim)` → the shell's actual tokens `--ink`, `--paper`, `--surface-2`,
+    `--line`, `--line-strong`, `--st-bg`, `--st-fg`, `--st-line`, `--st-dim`.
+  - Reduced-motion selector `[class*="__motion-target"]` → `[class*="__mt"]`.
+- **`references/report-template.html` header comment contradicted its own CSS.**
+  It described a "magenta-rose accent" and a "Familjen / Onest / Geist Mono"
+  type family; the stylesheet uses a neutral accent (severity is the only color)
+  and Public Sans for body text. The `--accent` channel note now matches the
+  neutral-by-default behavior documented in `output-format.md`.
+- **`references/demo-shell.html` said "Renumber the four radio ids"** when the
+  card has three (`-a` / `-l` / `-d`).
+
+### Added
+- `references/report-template.html` is now listed in the `SKILL.md` reference
+  index and in the audit workflow's STEP 3 required reading, so the canonical
+  visual reference is loaded when composing the HTML report.
+
+### Changed
+- Generalised assistant-specific wording so the skill reads correctly in every
+  assistant it advertises support for: "Claude's failure modes" → "the agent's
+  failure modes", and the reconnaissance step now looks for any project
+  conventions file (`CLAUDE.md`, `AGENTS.md`, `.cursorrules`) rather than
+  `CLAUDE.md` alone.
+
 ## [2.1.1] — 2026-05-30
 
 A complete worked-example report for Audit mode. No behavior changes — the audit workflow is unchanged; this release upgrades the templates the agent reads when composing the HTML report, so real audits inherit a finished, consistent design.

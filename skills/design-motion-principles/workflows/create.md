@@ -7,7 +7,7 @@ Build interactive components with purposeful motion. Light discovery, then gener
 Read before generating:
 1. `references/motion-cookbook.md` — the recipe source for all motion code
 2. `references/accessibility.md` — `prefers-reduced-motion` is mandatory in everything you generate
-3. `references/creation-gotchas.md` — Claude's failure modes when writing motion; self-check against these
+3. `references/creation-gotchas.md` — the agent's failure modes when writing motion; self-check against these
 
 ---
 
@@ -19,7 +19,7 @@ Establish two things — project context and designer weighting — before gener
 
 Check what you can already see:
 - **The request** — what component, what interaction, what stack (React / Framer Motion / CSS / HTML)?
-- **CLAUDE.md, package.json, existing components** — project type and existing animation conventions (durations, easing, libraries)
+- **Project conventions file (CLAUDE.md, AGENTS.md, .cursorrules), package.json, existing components** — project type and existing animation conventions (durations, easing, libraries)
 
 ### Propose Context + Weighting
 

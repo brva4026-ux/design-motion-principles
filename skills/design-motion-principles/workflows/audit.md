@@ -10,7 +10,8 @@ Read as you reach each step (not all upfront):
 3. `references/accessibility.md` — mandatory every audit (STEP 2)
 4. `references/anti-checklist.md` — the quality gate: AI-slop motion categories + anti-patterns to flag (STEP 2)
 5. `references/output-format.md` — the report template, HTML mode + terminal mode (STEP 3)
-6. `references/demo-shell.html` — the demo-card template for HTML-mode per-finding demos (STEP 3)
+6. `references/report-template.html` — the canonical worked-example HTML report; match its layout, tokens, and structure (STEP 3)
+7. `references/demo-shell.html` — the demo-card template for HTML-mode per-finding demos (STEP 3)
 
 ---
 
@@ -21,7 +22,7 @@ Before auditing any code, understand the project context.
 ### Gather Context
 
 Check these sources:
-1. **CLAUDE.md** — Any explicit context about the project's purpose or design intent
+1. **Project conventions file** (`CLAUDE.md`, `AGENTS.md`, `.cursorrules`) — Any explicit context about the project's purpose or design intent
 2. **package.json** — What type of app? (Next.js marketing site vs Electron productivity app vs mobile PWA)
 3. **Existing animations** — Grep for `motion`, `animate`, `transition`, `@keyframes`. What durations are used? What patterns exist?
 4. **Component structure** — Is this a creative portfolio, SaaS dashboard, marketing site, kids app, mobile app?
@@ -134,9 +135,9 @@ The audit produces a **self-contained HTML report** with auto-looping CSS demos 
    - Example: `<project-root>/motion-audits/my-app-2026-05-20.html`.
    - Do not modify `.gitignore`. The user sees `motion-audits/` in `git status` and decides whether to ignore it.
 
-2. **Read `references/demo-shell.html`** and use it as the template for each demo card. Embed one card per Critical + Important finding (Opportunities do not get demo cards). Use the suffixed-naming contract — `@keyframes motion-{n}-...` and `.demo-card-{n}__motion-target`, `{n}` = the finding's 1-indexed position across the whole report — so multiple findings don't collide on CSS names.
+2. **Read `references/demo-shell.html`** and use it as the template for each demo card. Embed one card per Critical + Important finding (Opportunities do not get demo cards). Use the suffixed-naming contract — `@keyframes m{n}` and `.demo-{n}__mt`, `{n}` = the finding's 1-indexed position across the whole report — so multiple findings don't collide on CSS names.
 
-3. **Generate per-finding motion code** by reading the audited code, the relevant lens reference, and `references/motion-cookbook.md` for the recipe. Use the shell's 0% / 66% / 100% cadence at `animation-duration: 3s` (~2s motion, ~1s hold, loop). The `@keyframes` 100% state must match the motion-target's default static rendering so the shell's `prefers-reduced-motion` guard shows the correct final visual.
+3. **Generate per-finding motion code** by reading the audited code, the relevant lens reference, and `references/motion-cookbook.md` for the recipe. Use the shell's 0% / ~60% / 100% cadence at `animation-duration: 3s` (motion completes by ~60% ≈ 1.8s, then holds to 100% ≈ 1.2s, loop). The `@keyframes` 100% state must match the motion-target's default static rendering so the shell's `prefers-reduced-motion` guard shows the correct final visual.
 
 4. **Write the file.** Create `motion-audits/` if it doesn't exist. Write the complete self-contained HTML document.
 
@@ -179,9 +180,9 @@ Do not summarize the audit content in either mode — users want full per-lens p
 
 Common failure modes during HTML report generation. Most break silently or only manifest when a second finding lands in the same report.
 
-- **Don't reuse keyframe or class names across findings.** Each demo uses `@keyframes motion-{n}-...` and `.demo-card-{n}__motion-target` where `{n}` is the 1-indexed position across the WHOLE report. Duplicate names mean the second finding shadows the first and the first demo breaks silently.
-- **Don't redefine the shell's CSS variables.** Per-finding code uses `var(--bg)`, `var(--fg)`, `var(--border)`, `var(--accent)`, `var(--loop-dim)`, `var(--sans)`, `var(--mono)`. Hard-coding colors or fonts breaks dark mode and typography consistency.
-- **Don't write per-finding overrides inside the `prefers-reduced-motion` block.** The shell's guard collapses all `[class*="__motion-target"]` animations. Make the `@keyframes` 100% state match the motion-target's default static rendering instead.
+- **Don't reuse keyframe or class names across findings.** Each demo uses `@keyframes m{n}` and `.demo-{n}__mt` where `{n}` is the 1-indexed position across the WHOLE report. Duplicate names mean the second finding shadows the first and the first demo breaks silently.
+- **Don't redefine the shell's CSS variables.** Per-finding code uses `var(--ink)`, `var(--paper)`, `var(--surface-2)`, `var(--line)`, `var(--line-strong)`, `var(--st-bg)`, `var(--st-fg)`, `var(--st-line)`, `var(--st-dim)`, `var(--sans)`, `var(--mono)`. Hard-coding colors or fonts breaks dark mode and typography consistency.
+- **Don't write per-finding overrides inside the `prefers-reduced-motion` block.** The shell's guard collapses all `[class*="__mt"]` animations. Make the `@keyframes` 100% state match the motion-target's default static rendering instead.
 - **Don't include demo cards for Opportunities.** Demos are reserved for Critical and Important. Surface Opportunities in text only.
 - **Don't animate the report itself.** No entrance, scroll, or mount animations on the report chrome — only the demo cards animate. Animating the report reproduces the AI-slop patterns the audit exists to catch.
 - **Don't write to cwd if `git rev-parse --show-toplevel` succeeds.** The report goes to `{project-root}/motion-audits/`. Only fall back to cwd when git returns nonzero.
@@ -193,7 +194,7 @@ Common failure modes during HTML report generation. Most break silently or only 
 
 ## Success Criteria
 
-- [ ] Context gathered (CLAUDE.md, package.json, existing animations, structure)
+- [ ] Context gathered (project conventions file, package.json, existing animations, structure)
 - [ ] Motion gap analysis run — conditional renders checked for missing animation
 - [ ] Weighting proposed and confirmed by the user
 - [ ] Audit checklist worked through systematically

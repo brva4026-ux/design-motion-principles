@@ -103,7 +103,7 @@ Every animation — generated in Create mode or reviewed in Audit mode — must 
 | File | Contents | Load When |
 |------|----------|-----------|
 | [Motion Cookbook](references/motion-cookbook.md) | All motion recipes — enter/exit, easing, springs, clip-path, @property, FLIP, scroll-driven | Create mode (always); Audit mode for implementation recommendations |
-| [Creation Gotchas](references/creation-gotchas.md) | Claude's failure modes when writing motion | Create mode (always) |
+| [Creation Gotchas](references/creation-gotchas.md) | The agent's failure modes when writing motion | Create mode (always) |
 | [Audit Checklist](references/audit-checklist.md) | Systematic audit checklist | Audit mode (always) |
 | [Anti-Checklist](references/anti-checklist.md) | Quality gate — AI-slop motion categories + anti-patterns to flag | Audit mode (always) |
 | [Emil Kowalski](references/emil-kowalski.md) | Restraint philosophy, frequency rule, decision frameworks | Either mode, if Emil is weighted |
@@ -112,6 +112,7 @@ Every animation — generated in Create mode or reviewed in Audit mode — must 
 | [Accessibility](references/accessibility.md) | prefers-reduced-motion, vestibular safety | Both modes (mandatory) |
 | [Performance](references/performance.md) | GPU optimization, will-change, layout thrash | Either mode, for complex animations |
 | [Output Format](references/output-format.md) | Audit report template — HTML mode (default) + terminal mode (flag) | Audit mode only |
+| [Report Template](references/report-template.html) | Full worked-example HTML report — the canonical visual reference (layout, tokens, structure) | Audit mode, HTML output |
 | [Demo Shell](references/demo-shell.html) | Visual container template for per-finding demo cards in the HTML report | Audit mode, HTML output |
 
 ## Workflow Index

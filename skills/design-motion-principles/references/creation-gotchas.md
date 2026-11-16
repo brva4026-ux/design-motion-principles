@@ -1,6 +1,6 @@
 # Creation Gotchas
 
-Where Claude typically fails when **writing** motion (as opposed to auditing it). Self-check generated code against every item before presenting.
+Where agents typically fail when **writing** motion (as opposed to auditing it). Self-check generated code against every item before presenting.
 
 ---
 
